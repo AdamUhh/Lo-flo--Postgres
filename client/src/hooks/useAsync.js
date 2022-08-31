@@ -38,6 +38,6 @@ function useAsyncInternal(func, dependencies, initialLoading = false) {
         setLoading(false);
       });
   }, dependencies);
-
+  
   return { loading, error, value, execute };
 }

@@ -1,35 +1,40 @@
 import { useState } from "react";
 import { useCardsContext } from "../../../contexts/cardContext";
+import { useUrl } from "../../../contexts/urlContext";
 import { useAsyncFn } from "../../../hooks/useAsync";
 import { createCard } from "../../../services/cards";
+import ButtonLoadingIcon from "../../svg/ButtonLoadingIcon";
 import ContentInput from "../ContentInput";
+import ModalTitlebar from "../ModalTitlebar";
 
 export default function AddCardModal({ handleModalOpen, initialValue = "" }) {
   const [title, setTitle] = useState(initialValue);
 
   const { loading, error, execute: createCardFn } = useAsyncFn(createCard);
   const { createLocalCard } = useCardsContext();
-
+  const { handleCardIdParam } = useUrl();
   function onCardCreate(e) {
     e.preventDefault();
 
-    return createCardFn({ title }).then((title) => {
-      createLocalCard(title);
+    if (loading) return;
+
+    return createCardFn({ title }).then((result) => {
+      createLocalCard(result);
+      handleCardIdParam(result.id);
       handleModalOpen();
     });
   }
 
   return (
     <div className="modal__wrapper">
-      <div className="modal__titlebar_wrapper">
-        <button className="modal__btn btn" onClick={handleModalOpen}>
-          Cancel
-        </button>
-        <div className="modal_titlebar">New Card</div>
-        <button className="modal__btn btn" disabled={loading} onClick={onCardCreate}>
-          Create
-        </button>
-      </div>
+      <ModalTitlebar
+        title={"Card"}
+        actionTitle={"Create"}
+        loading={loading}
+        handleModal={handleModalOpen}
+        handleAction={onCardCreate}
+      />
+
       <div className="modal__content_container">
         Card name
         <ContentInput error={error} onSubmit={onCardCreate} title={title} setTitle={setTitle} />

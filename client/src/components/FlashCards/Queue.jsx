@@ -1,4 +1,5 @@
 import { usePanel } from "../../contexts/panelContext";
+import { ellipsis } from "../../util";
 
 export default function Queue({ data,  setShowSolution }) {
   const { currentIndex, maxLength, goToIndex } = usePanel();
@@ -22,7 +23,7 @@ export default function Queue({ data,  setShowSolution }) {
             onClick={() => handleGoTo(slicedIndx + indx)}
           >
             <div className="flashcards__queue_indx">{slicedIndx + indx + 1}</div>
-            <div className="flashcards__queue_question">{fc.question}</div>
+            <div className="flashcards__queue_question">{ellipsis(fc.question, 200)}</div>
           </button>
         ))}
       </div>

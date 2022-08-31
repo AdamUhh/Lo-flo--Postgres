@@ -32,7 +32,6 @@ export function FlashCardProvider({ children }) {
   }
 
   function updateLocalFlashCard(id, result) {
-    console.log(result)
     setFlashCardData((prevFlashCards) => ({
       ...prevFlashCards,
       flashCards: prevFlashCards.flashCards.map((fc) => {

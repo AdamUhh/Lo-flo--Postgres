@@ -2,6 +2,7 @@ import { usePanel } from "../../../contexts/panelContext";
 import { useUrl } from "../../../contexts/urlContext";
 import { useAsync } from "../../../hooks/useAsync";
 import { getFlashCards } from "../../../services/flashCards";
+import { ellipsis } from "../../../util";
 
 export default function ShowAllFlashCardModal({ handleModalOpen }) {
   const { cardIdParam, subjectIdParam } = useUrl();
@@ -22,7 +23,7 @@ export default function ShowAllFlashCardModal({ handleModalOpen }) {
         <button className="modal__btn btn" onClick={handleModalOpen}>
           Cancel
         </button>
-        <div className="modal_titlebar">All FlashCards</div>
+        <div>All FlashCards</div>
       </div>
       <div className="modal__content_container">
         <div className="modal__content_overflow_container">
@@ -33,7 +34,7 @@ export default function ShowAllFlashCardModal({ handleModalOpen }) {
               onClick={() => handleSelectedFlashCard(indx)}
             >
               <div className="flashcards__queue_indx">{indx + 1}</div>
-              <div className="flashcards__queue_question">{fc.question}</div>
+              <div className="flashcards__queue_question">{ellipsis(fc.question, 100)}</div>
             </button>
           ))}
         </div>

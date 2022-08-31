@@ -1,9 +1,9 @@
 import * as React from "react";
 
-const SvgListicon = (props) => (
+const BulbOffIcon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="listicon_svg__icon listicon_svg__icon-tabler listicon_svg__icon-tabler-list-details"
+    className="bulbofficon_svg__icon bulbofficon_svg__icon-tabler bulbofficon_svg__icon-tabler-bulb-off"
     width={32}
     height={32}
     viewBox="0 0 24 24"
@@ -15,11 +15,10 @@ const SvgListicon = (props) => (
     {...props}
   >
     <path d="M0 0h24v24H0z" stroke="none" />
-    <path d="M13 5h8M13 9h5M13 15h8M13 19h5" />
-    <rect x={3} y={4} width={6} height={6} rx={1} />
-    <rect x={3} y={14} width={6} height={6} rx={1} />
+    <path d="M9 16a5 5 0 1 1 6 0 3.5 3.5 0 0 0-1 3 2 2 0 0 1-4 0 3.5 3.5 0 0 0-1-3M9.7 17h4.6" />
+  <line x1="5" y1="7" x2="19" y2="19" />
+
   </svg>
 );
 
-export default SvgListicon;
-
+export default BulbOffIcon;

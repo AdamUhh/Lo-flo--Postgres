@@ -18,8 +18,8 @@
 }
 
 body {
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
@@ -71,6 +71,16 @@ code {
   height: 60px;
 }
 .loading_path {
+  stroke: rgb(147, 191, 236);
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+.btn_loading_spinner {
+  animation: rotate 2s linear infinite;
+  width: 20px;
+  height: 20px;
+}
+.btn_loading_path {
   stroke: rgb(147, 191, 236);
   stroke-linecap: round;
   animation: dash 1.5s ease-in-out infinite;
@@ -146,12 +156,17 @@ code {
 
 /* Navbar */
 .navbar__container {
-  background-color: var(--btnBG);
-  border-radius: 10px;
-  margin: 0 0 25px 0;
+  display: flex;
   width: 100%;
   height: 55px;
+  margin: 0 0 25px 0;
+}
+.navbar__wrapper {
   display: flex;
+  width: calc(100% - 65px);
+  height: 55px;
+  border-radius: 10px;
+  background-color: var(--btnBG);
   align-items: center;
   padding: 0 0 0 30px;
 }
@@ -193,7 +208,12 @@ code {
   width: 190px;
   height: 100%;
   background-color: var(--btnBGDark);
-  border-radius: 0 10px 10px 0;
+  /* border-radius: 0 10px 10px 0; */
+}
+
+.navbar__btn.search {
+  width: 55px;
+  margin-left: auto;
 }
 
 /* SubjectBar */
@@ -517,9 +537,6 @@ code {
   padding: 0 10px;
 }
 
-.modal__titlebar {
-}
-
 .modal__btn {
   background-color: transparent;
   color: white;
@@ -597,4 +614,228 @@ code {
 .modal__content_overflow_container {
   overflow: auto;
   max-height: 100%;
+}
+
+/* Searchbar */
+
+.search__container {
+  position: fixed;
+  top: 200px;
+  left: 50%;
+  transform: translate(-50%, -100px);
+  /* max-height: 70%; */
+  width: 70%;
+  z-index: 3;
+}
+
+.search_wrapper {
+  text-align: center;
+}
+
+.search_wrapper_flex {
+  display: flex;
+  justify-content: center;
+}
+
+.search_wrapper_flex button {
+  border-radius: 0 12px 12px 0;
+  padding: 8px 30px;
+}
+
+.search_wrapper .search_input {
+  width: 90%;
+  height: 40px;
+  border: none;
+  border-radius: 12px 0 0 12px;
+  padding: 0 10px;
+  outline: none;
+  font-size: 20px;
+}
+
+.search_checkbox_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  padding: 0 20px 0 16px;
+  border-radius: 0 0 20px 20px;
+  cursor: pointer;
+  text-align: start;
+  margin: 20px 0;
+}
+
+.search_checkbox_container label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #fff;
+}
+
+.search_checkbox_container label span {
+  padding-left: 10px;
+}
+
+.search_checkbox {
+  display: inline-block;
+  position: relative;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+}
+
+/* .search_checkbox_container label:first-child,
+.search_checkbox_container label:first-child input {
+  opacity: 0.7;
+  cursor: default;
+} */
+
+.search_checkbox_container label.crossout,
+.search_checkbox_container label.crossout input {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.search_checkbox:checked {
+  background-color: #ccc;
+}
+
+.search_checkbox:checked:before {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 25px;
+  background-color: #fff;
+  left: 20px;
+  top: 6px;
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+
+.search_checkbox:checked:after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 3px;
+  background-color: #fff;
+  left: 5px;
+  top: 21px;
+  transform: rotate(45deg);
+}
+
+.search_result_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-height: 570px;
+  /* background-color: var(--btnBGDark); */
+  border-radius: 12px;
+  overflow: auto;
+}
+.search_result_container .loading_spinner {
+  top: 200px;
+}
+
+.search_result_wrapper {
+  background-color: var(--btnBG);
+  border-radius: 4px;
+  width: 100%;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.search_result_wrapper:hover {
+  filter: brightness(0.98);
+  cursor: pointer;
+}
+
+.search_result_title {
+  width: 100%;
+  border-bottom: 1px solid #000;
+  margin-bottom: 10px;
+}
+.search_result_subject_container {
+  display: grid;
+}
+
+.search_result_subject_container.subjOnly {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin: 10px;
+  gap: 20px;
+}
+
+.search_result_subject_wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  margin: 0 10px 10px 10px;
+}
+
+.search_result_subject_container.subjOnly .search_result_subject_wrapper {
+  grid-template-columns: 1fr;
+  margin: 0;
+}
+
+.search_result_subject_title {
+  background-color: var(--btnBGDark);
+  border-radius: 8px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  position: relative;
+}
+
+.search_result_subject_container.subjOnly .search_result_subject_wrapper .search_result_subject_title {
+  margin-right: 0;
+}
+
+.search_result_subject_title:after {
+  content: "";
+  position: absolute;
+  top: 5%;
+  right: -10px;
+  border-right: 1px solid #000;
+  height: 90%;
+}
+.search_result_subject_container.subjOnly .search_result_subject_wrapper .search_result_subject_title:after {
+  content: none;
+}
+
+.search_result_flashcard_wrapper {
+  display: flex;
+  flex-direction: column;
+  max-height: 220px;
+  overflow: hidden auto;
+  width: calc(100% - 20px);
+  gap: 10px;
+}
+
+.search_result_flashcard_panel {
+  background-color: var(--btnBGDark);
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border-radius: 8px;
+  position: relative;
+  text-align: center;
+}
+
+.search_result_flashcard_bulb {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.search_result_flashcard_bulb.toggled {
+  background-color: var(--yellowBtnBG);
 }

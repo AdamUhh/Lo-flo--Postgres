@@ -10,10 +10,6 @@ export const UrlProvider = ({ children }) => {
   const [subjectIdParam, setSubjectIdParam] = useState("");
   const [flashCardIdParam, setFlashCardIdParam] = useState("");
 
-  useEffect(() => {
-    handleDeleteSubjectIdParam();
-  }, [cardIdParam]);
-
   const handleCardIdParam = (id = "") => {
     setCardIdParam(id);
   };

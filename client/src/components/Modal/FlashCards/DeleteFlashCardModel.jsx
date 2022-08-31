@@ -2,6 +2,7 @@ import { useFlashCardsContext } from "../../../contexts/flashcardContext";
 import { useUrl } from "../../../contexts/urlContext";
 import { useAsyncFn } from "../../../hooks/useAsync";
 import { deleteFlashCard } from "../../../services/flashCards";
+import ModalTitlebar from "../ModalTitlebar";
 
 export default function DeleteFlashCardModal({
   handleModalOpen,
@@ -12,11 +13,7 @@ export default function DeleteFlashCardModal({
 }) {
   const { loading, error, execute: deleteFlashCardFn } = useAsyncFn(deleteFlashCard);
   const { deleteLocalFlashCard } = useFlashCardsContext();
-  const {
-    cardIdParam: cardId,
-    subjectIdParam: subjectId,
-    flashCardIdParam: flashCardId,
-  } = useUrl();
+  const { cardIdParam: cardId, subjectIdParam: subjectId, flashCardIdParam: flashCardId } = useUrl();
 
   function onFlashCardDelete(e) {
     e.preventDefault();
@@ -32,15 +29,14 @@ export default function DeleteFlashCardModal({
 
   return (
     <div className="modal__wrapper">
-      <div className="modal__titlebar_wrapper">
-        <button className="modal__btn btn" onClick={handleModalOpen}>
-          Cancel
-        </button>
-        <div className="modal_titlebar">Delete FlashCard</div>
-        <button className="modal__btn btn delete" disabled={loading} onClick={onFlashCardDelete}>
-          Delete
-        </button>
-      </div>
+      <ModalTitlebar
+        title={"FlashCard"}
+        actionTitle={"Delete"}
+        loading={loading}
+        handleModal={handleModalOpen}
+        handleAction={onFlashCardDelete}
+      />
+
       <div className="modal__content_container">
         <div className="modal__delete_title">
           <div>Are you sure you wish to delete</div>

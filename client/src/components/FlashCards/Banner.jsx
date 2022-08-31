@@ -61,20 +61,16 @@ export default function Banner({ data = [], isData, showSolution, setShowSolutio
       <div className="flashcards__banner">
         {isData ? (
           <>
-            <button
-              className="flashcards__Arrow left btn"
-              disabled={data?.length === 1}
-              onClick={handleGoToPrevious}
-            >
-              ❮
-            </button>
-            <button
-              className="flashcards__Arrow right btn"
-              disabled={data?.length === 1}
-              onClick={handleGoToNext}
-            >
-              ❯
-            </button>
+            {data?.length > 1 && (
+              <>
+                <button className="flashcards__Arrow left btn" onClick={handleGoToPrevious}>
+                  ❮
+                </button>
+                <button className="flashcards__Arrow right btn" onClick={handleGoToNext}>
+                  ❯
+                </button>
+              </>
+            )}
             <div className={`flashcards__bannerWrapper ${showSolution && "smallerText"}`}>
               <span className="text_overflow_center">
                 {showSolution ? data[currentIndex]?.solution : data[currentIndex]?.question}

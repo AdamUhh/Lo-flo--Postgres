@@ -1,5 +1,4 @@
 import { useFlashCardsContext } from "../../contexts/flashcardContext";
-import { PanelProvider } from "../../contexts/panelContext";
 import LoadingIcon from "../svg/LoadingIcon";
 import Panel from "./Panel";
 
@@ -9,11 +8,7 @@ export default function FlashCards() {
     <>
       {loading && <LoadingIcon />}
       <div className="flashcards__container">
-        {value != null && (
-          <PanelProvider data={value?.flashCards}>
-            <Panel data={value?.flashCards} />
-          </PanelProvider>
-        )}
+        {value != null && <Panel data={value?.flashCards} />}
         {error && error}
       </div>
     </>

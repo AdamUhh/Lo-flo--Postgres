@@ -12,14 +12,23 @@ export function createCard({ title }) {
 }
 
 export function updateCard({ cardId, title }) {
-  return makeRequest(`cards/${cardId}`, {
+  return makeRequest(`/cards/${cardId}`, {
     method: "PUT",
     data: { title },
   });
 }
 
 export function deleteCard({ cardId }) {
-  return makeRequest(`cards/${cardId}`, {
+  return makeRequest(`/cards/${cardId}`, {
     method: "DELETE",
   });
+}
+
+export function searchCards({ searchInput, Card, Subject, FlashCard, Solution }) {
+  return makeRequest(
+    `/search/query?searchInput=${searchInput}&cardFilter=${Card}&subjectFilter=${Subject}&flashcardFilter=${FlashCard}&solutionFilter=${Solution}`,
+    {
+      method: "GET",
+    }
+  );
 }

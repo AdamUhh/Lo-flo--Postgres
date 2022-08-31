@@ -8,8 +8,7 @@ import ListIcon from "../svg/ListIcon";
 export default function DataPanel({ isData }) {
   const { currentIndex, maxLength } = usePanel();
   const { modalOpen, handleModalOpen } = useModal();
-  const { modalOpen: AllFlashCardModalOpen, handleModalOpen: handleAllFlashCardModalOpen } =
-    useModal();
+  const { modalOpen: AllFlashCardModalOpen, handleModalOpen: handleAllFlashCardModalOpen } = useModal();
 
   return (
     <div className="flashcards__datapanel">
@@ -21,10 +20,7 @@ export default function DataPanel({ isData }) {
       </Modal>
       <div className="flashcards__datapanel_topbar">
         {isData && (
-          <button
-            className="flashcards__datapanel_listview btn"
-            onClick={handleAllFlashCardModalOpen}
-          >
+          <button className="flashcards__datapanel_listview btn" onClick={handleAllFlashCardModalOpen}>
             <ListIcon />
           </button>
         )}

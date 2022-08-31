@@ -9,13 +9,268 @@ dotenv.config();
 
 const app = fastify();
 app.register(sensible);
-// app.register(cookie, { secret: process.env.COOKIE_SECRET });
 app.register(cors, {
   origin: process.env.CLIENT_URL,
   credentials: true,
 });
 
 const prisma = new PrismaClient();
+
+app.get("/search/:query", async (req, res) => {
+  if (req.query.flashcardFilter === "true") {
+    if (req.query.solutionFilter === "true") {
+      return await commitToDb(
+        prisma.cards.findMany({
+          where: {
+            OR: [
+              {
+                title: {
+                  contains: req.query.searchInput,
+                  mode: "insensitive",
+                },
+              },
+              {
+                subjects: {
+                  some: {
+                    title: {
+                      contains: req.query.searchInput,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+              {
+                subjects: {
+                  some: {
+                    flashCards: {
+                      some: {
+                        OR: [
+                          {
+                            question: {
+                              contains: req.query.searchInput,
+                              mode: "insensitive",
+                            },
+                          },
+                          {
+                            solution: {
+                              contains: req.query.searchInput,
+                              mode: "insensitive",
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          include: {
+            subjects: {
+              where: {
+                OR: [
+                  {
+                    title: { contains: req.query.searchInput, mode: "insensitive" },
+                  },
+                  {
+                    flashCards: {
+                      some: {
+                        OR: [
+                          {
+                            question: {
+                              contains: req.query.searchInput,
+                              mode: "insensitive",
+                            },
+                          },
+                          {
+                            solution: {
+                              contains: req.query.searchInput,
+                              mode: "insensitive",
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  },
+                ],
+              },
+              include: {
+                flashCards: {
+                  where: {
+                    OR: [
+                      {
+                        question: {
+                          contains: req.query.searchInput,
+                          mode: "insensitive",
+                        },
+                      },
+                      {
+                        solution: {
+                          contains: req.query.searchInput,
+                          mode: "insensitive",
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          },
+        })
+      );
+    } else {
+      return await commitToDb(
+        prisma.cards.findMany({
+          where: {
+            OR: [
+              {
+                title: {
+                  contains: req.query.searchInput,
+                  mode: "insensitive",
+                },
+              },
+              {
+                subjects: {
+                  some: {
+                    title: {
+                      contains: req.query.searchInput,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+              {
+                subjects: {
+                  some: {
+                    flashCards: {
+                      some: {
+                        question: {
+                          contains: req.query.searchInput,
+                          mode: "insensitive",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          include: {
+            subjects: {
+              where: {
+                OR: [
+                  {
+                    title: { contains: req.query.searchInput, mode: "insensitive" },
+                  },
+                  {
+                    flashCards: {
+                      some: {
+                        question: {
+                          contains: req.query.searchInput,
+                          mode: "insensitive",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+              include: {
+                flashCards: {
+                  where: {
+                    question: {
+                      contains: req.query.searchInput,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        })
+      );
+    }
+
+    // prisma.cards.findMany({
+    //   where: {
+    //     OR: [
+    //       {
+    //         title: {
+    //           contains: req.query.searchInput,
+    //           mode: "insensitive",
+    //         },
+    //       },
+    //       {
+    //         subjects: {
+    //           some: {
+    //             title: {
+    //               contains: req.query.searchInput,
+    //               mode: "insensitive",
+    //             },
+    //           },
+    //         },
+    //       },
+    //     ],
+    //   },
+    //   include: {
+    //     subjects: {
+    //       where: {
+    //         title: {
+    //           contains: req.query.searchInput,
+    //           mode: "insensitive",
+    //         },
+    //       },
+    //     },
+    //   },
+    // })
+  } else if (req.query.subjectFilter === "true") {
+    return await commitToDb(
+      prisma.cards.findMany({
+        where: {
+          OR: [
+            {
+              title: {
+                contains: req.query.searchInput,
+                mode: "insensitive",
+              },
+            },
+            {
+              subjects: {
+                some: {
+                  title: {
+                    contains: req.query.searchInput,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          ],
+        },
+        include: {
+          subjects: {
+            where: {
+              title: { contains: req.query.searchInput, mode: "insensitive" },
+            },
+          },
+        },
+      })
+    );
+  } else if (req.query.cardFilter === "true") {
+    return await commitToDb(
+      prisma.cards.findMany({
+        where: {
+          title: {
+            contains: req.query.searchInput,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+          title: true,
+        },
+      })
+    );
+  }
+});
 
 app.get("/flashcards", async (req, res) => {
   return await commitToDb(
@@ -71,7 +326,7 @@ app.post("/cards", async (req, res) => {
   }
 
   if (req.body.title.length > 13) {
-    return res.send(app.httpErrors.badRequest("Title it too long. Max Characters: 13"))
+    return res.send(app.httpErrors.badRequest("Title it too long. Max Characters: 13"));
   }
 
   return await commitToDb(
@@ -90,6 +345,10 @@ app.post("/cards", async (req, res) => {
 app.put("/cards/:cardId", async (req, res) => {
   if (req.body.title === "" || req.body.title == null) {
     return res.send(app.httpErrors.badRequest("Title is required"));
+  }
+
+  if (req.body.title.length > 13) {
+    return res.send(app.httpErrors.badRequest("Title it too long. Max Characters: 13"));
   }
 
   return await commitToDb(
@@ -140,6 +399,10 @@ app.post("/cards/:cardId/subjects", async (req, res) => {
     return res.send(app.httpErrors.badRequest("Title is required"));
   }
 
+  if (req.body.title.length > 13) {
+    return res.send(app.httpErrors.badRequest("Title it too long. Max Characters: 13"));
+  }
+
   return await commitToDb(
     prisma.subjects.create({
       data: {
@@ -157,6 +420,10 @@ app.post("/cards/:cardId/subjects", async (req, res) => {
 app.put("/cards/:cardId/subjects/:subjectId", async (req, res) => {
   if (req.body.title === "" || req.body.title == null) {
     return res.send(app.httpErrors.badRequest("Title is required"));
+  }
+
+  if (req.body.title.length > 13) {
+    return res.send(app.httpErrors.badRequest("Title it too long. Max Characters: 13"));
   }
 
   return await commitToDb(

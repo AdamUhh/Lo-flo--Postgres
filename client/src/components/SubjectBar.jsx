@@ -11,23 +11,25 @@ import DeleteSubjectModal from "./Modal/Subjects/DeleteSubjectModel";
 import UpdateSubjectModal from "./Modal/Subjects/UpdateSubjectModal";
 import TrashIcon from "./svg/TrashIcon";
 import LoadingIcon from "./svg/LoadingIcon";
+import { usePanel } from "../contexts/panelContext";
 
 export default function SubjectBar() {
   const { cardIdParam, subjectIdParam, handleSubjectIdParam } = useUrl();
   const { loading, error, subjectData: value } = useSubjectsContext();
+  const { goToIndex } = usePanel();
 
   const { modalOpen, handleModalOpen } = useModal();
   const { modalOpen: deleteCardModalOpen, handleModalOpen: handleDeleteCardModalOpen } = useModal();
-  const { modalOpen: deleteSubjectModalOpen, handleModalOpen: handleDeleteSubjectModalOpen } =
-    useModal();
-  const { modalOpen: updateSubjectModalOpen, handleModalOpen: handleUpdateSubjectModalOpen } =
-    useModal();
+  const { modalOpen: deleteSubjectModalOpen, handleModalOpen: handleDeleteSubjectModalOpen } = useModal();
+  const { modalOpen: updateSubjectModalOpen, handleModalOpen: handleUpdateSubjectModalOpen } = useModal();
   const { modalOpen: updateCardModalOpen, handleModalOpen: handleUpdateCardModalOpen } = useModal();
 
   const [subjectTitle, setSubjectTitle] = useState("");
   const [cardTitle, setCardTitle] = useState("");
 
   // ? required, incase user updates card title
+  // ? because without this, navbar card title will changes,
+  // ? but subjectbar card title will not
   useEffect(() => {
     setCardTitle(value?.title);
   }, [value?.title]);
@@ -35,6 +37,7 @@ export default function SubjectBar() {
   const handleSelectedSubj = (id, title) => {
     handleSubjectIdParam(id);
     setSubjectTitle(title);
+    goToIndex();
   };
 
   if (cardIdParam.length < 1)
@@ -43,7 +46,6 @@ export default function SubjectBar() {
         <div className="subjectbar__ends top">Select a card</div>
       </div>
     );
-
   return (
     <div className="subjectbar__container">
       {loading && <LoadingIcon />}
@@ -70,9 +72,8 @@ export default function SubjectBar() {
       <Modal modalOpen={deleteCardModalOpen} handleModalOpen={handleDeleteCardModalOpen}>
         <DeleteCardModal handleModalOpen={handleDeleteCardModalOpen} title={cardTitle} />
       </Modal>
-
       {error ? (
-        <h5 className="error-msg">{error}</h5>
+        <h5>{error}</h5>
       ) : (
         <>
           <div className="subjectbar__ends top">

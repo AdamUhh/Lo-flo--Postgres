@@ -8,10 +8,9 @@ import { useUrl } from "../../contexts/urlContext";
 export default function Panel({ data }) {
   const { subjectIdParam, handleFlashCardIdParam } = useUrl();
   const [showSolution, setShowSolution] = useState(false);
-  const { goToIndex } = usePanel();
+  const { currentIndex } = usePanel();
 
   useEffect(() => {
-    goToIndex(0);
     setShowSolution(false);
   }, [subjectIdParam]);
 
