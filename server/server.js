@@ -17,6 +17,10 @@ app.register(cors, {
 const prisma = new PrismaClient();
 
 app.get("/search/:query", async (req, res) => {
+  if (req.query.searchInput.length < 1 || req.query.searchInput.trim() === "") {
+    return res.send(app.httpErrors.badRequest("No input was provided!"));
+  }
+
   if (req.query.flashcardFilter === "true") {
     if (req.query.solutionFilter === "true") {
       return await commitToDb(
@@ -189,39 +193,6 @@ app.get("/search/:query", async (req, res) => {
         })
       );
     }
-
-    // prisma.cards.findMany({
-    //   where: {
-    //     OR: [
-    //       {
-    //         title: {
-    //           contains: req.query.searchInput,
-    //           mode: "insensitive",
-    //         },
-    //       },
-    //       {
-    //         subjects: {
-    //           some: {
-    //             title: {
-    //               contains: req.query.searchInput,
-    //               mode: "insensitive",
-    //             },
-    //           },
-    //         },
-    //       },
-    //     ],
-    //   },
-    //   include: {
-    //     subjects: {
-    //       where: {
-    //         title: {
-    //           contains: req.query.searchInput,
-    //           mode: "insensitive",
-    //         },
-    //       },
-    //     },
-    //   },
-    // })
   } else if (req.query.subjectFilter === "true") {
     return await commitToDb(
       prisma.cards.findMany({

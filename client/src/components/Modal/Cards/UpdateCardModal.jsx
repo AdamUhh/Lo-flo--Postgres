@@ -5,6 +5,9 @@ import { useAsyncFn } from "../../../hooks/useAsync";
 import { updateCard } from "../../../services/cards";
 import ContentInput from "../ContentInput";
 import ModalTitlebar from "../ModalTitlebar";
+import styles from '../../../styles/Modal.module.scss'
+
+
 export default function UpdateCardModal({ handleModalOpen, initialValue = "", reAssignTitle }) {
   const { cardIdParam } = useUrl();
   const [title, setTitle] = useState(initialValue);
@@ -26,7 +29,7 @@ export default function UpdateCardModal({ handleModalOpen, initialValue = "", re
   }
 
   return (
-    <div className="modal__wrapper">
+    <div className={styles.wrapper}>
       <ModalTitlebar
         title={"Card"}
         actionTitle={"Update"}
@@ -34,7 +37,7 @@ export default function UpdateCardModal({ handleModalOpen, initialValue = "", re
         handleModal={handleModalOpen}
         handleAction={onCardUpdate}
       />
-      <div className="modal__content_container">
+      <div className={styles.content_container}>
         Card name
         <ContentInput error={error} onSubmit={onCardUpdate} title={title} setTitle={setTitle} />
       </div>

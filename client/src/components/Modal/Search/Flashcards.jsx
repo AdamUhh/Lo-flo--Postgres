@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ellipsis } from "../../../util";
 import BulbIcon from "../../svg/BulbIcon";
 import BulbOffIcon from "../../svg/BulbOffIcon";
+import styles from "../../../styles/Search.module.scss";
 
 export default function Flashcards({ rsf, handleFlashCard, searchSolution }) {
   const [showSolution, setShowSolution] = useState(false);
@@ -15,20 +16,17 @@ export default function Flashcards({ rsf, handleFlashCard, searchSolution }) {
   useEffect(() => {
     setShowSolution(false);
   }, [searchSolution]);
-
   return (
-    <div className="search_result_flashcard_panel btn" onClick={handleFlashCard}>
+    <div className={`${styles.result_flashcard_panel} btn`} onClick={handleFlashCard}>
       {searchSolution && (
         <div
-          className={`search_result_flashcard_bulb btn ${showSolution && "toggled"}`}
+          className={`${styles.result_flashcard_bulb} btn ${showSolution && styles.toggled}`}
           onClick={handleSolutionSwitch}
         >
           {showSolution ? <BulbOffIcon /> : <BulbIcon />}
         </div>
       )}
-      <div className="search_result_flashcard_title ">
-        {ellipsis(searchSolution && showSolution && rsf?.solution ? rsf.solution : rsf.question, 150)}
-      </div>
+      {ellipsis(searchSolution && showSolution && rsf?.solution ? rsf.solution : rsf.question, 150)}
     </div>
   );
 }

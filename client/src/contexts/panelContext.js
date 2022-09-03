@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 const Context = React.createContext();
 
 export function usePanel() {
@@ -19,7 +19,12 @@ export function PanelProvider({ children, data }) {
     setCurrentIndex(newIndex);
   };
 
-  const goToIndex = (indx = 0) => {
+  const goToIndex = (indx = 0, flashCardId = "") => {
+    // if (flashCardId.length > 0) {
+    //   const newIndex = data.findIndex((fc) => fc.id === flashCardId);
+    //   setCurrentIndex(newIndex);
+    // } else {
+    // }
     setCurrentIndex(indx);
   };
 

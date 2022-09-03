@@ -3,9 +3,9 @@ import { useCardsContext } from "../../../contexts/cardContext";
 import { useUrl } from "../../../contexts/urlContext";
 import { useAsyncFn } from "../../../hooks/useAsync";
 import { createCard } from "../../../services/cards";
-import ButtonLoadingIcon from "../../svg/ButtonLoadingIcon";
 import ContentInput from "../ContentInput";
 import ModalTitlebar from "../ModalTitlebar";
+import styles from '../../../styles/Modal.module.scss'
 
 export default function AddCardModal({ handleModalOpen, initialValue = "" }) {
   const [title, setTitle] = useState(initialValue);
@@ -26,7 +26,7 @@ export default function AddCardModal({ handleModalOpen, initialValue = "" }) {
   }
 
   return (
-    <div className="modal__wrapper">
+    <div className={styles.wrapper}>
       <ModalTitlebar
         title={"Card"}
         actionTitle={"Create"}
@@ -35,7 +35,7 @@ export default function AddCardModal({ handleModalOpen, initialValue = "" }) {
         handleAction={onCardCreate}
       />
 
-      <div className="modal__content_container">
+      <div className={styles.content_container}>
         Card name
         <ContentInput error={error} onSubmit={onCardCreate} title={title} setTitle={setTitle} />
       </div>

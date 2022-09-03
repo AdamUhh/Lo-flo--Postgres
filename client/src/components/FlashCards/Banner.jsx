@@ -7,6 +7,7 @@ import AddFlashCardModal from "../Modal/FlashCards/AddFlashCardModel";
 import DeleteFlashCardModal from "../Modal/FlashCards/DeleteFlashCardModel";
 import UpdateFlashCardModal from "../Modal/FlashCards/UpdateFlashCardModel";
 import TrashIcon from "../svg/TrashIcon";
+import styles from "../../styles/Flashcards.module.scss";
 
 export default function Banner({ data = [], isData, showSolution, setShowSolution }) {
   const { currentIndex, maxLength, goToNext, goToPrevious, goToIndex } = usePanel();
@@ -25,13 +26,11 @@ export default function Banner({ data = [], isData, showSolution, setShowSolutio
     setShowSolution((prev) => !prev);
   };
 
-  useEffect(() => {
-    handleFlashCardIdParam(data[currentIndex]?.id || "");
-  }, [currentIndex]);
-
-  useEffect(() => {
-    handleFlashCardIdParam(data[currentIndex]?.id);
-  }, [data]);
+  // useEffect(() => {
+  //   if (data.length > 0) {
+  //     handleFlashCardIdParam(data[currentIndex]?.id || "");
+  //   }
+  // }, [currentIndex]);
 
   const { modalOpen, handleModalOpen } = useModal();
   const { modalOpen: updateModalOpen, handleModalOpen: handleUpdateModalOpen } = useModal();
@@ -58,30 +57,30 @@ export default function Banner({ data = [], isData, showSolution, setShowSolutio
           assignCurrentIndx={goToIndex}
         />
       </Modal>
-      <div className="flashcards__banner">
+      <div className={styles.banner}>
         {isData ? (
           <>
             {data?.length > 1 && (
               <>
-                <button className="flashcards__Arrow left btn" onClick={handleGoToPrevious}>
+                <button className={`${styles.Arrow} ${styles.left} btn`} onClick={handleGoToPrevious}>
                   ❮
                 </button>
-                <button className="flashcards__Arrow right btn" onClick={handleGoToNext}>
+                <button className={`${styles.Arrow} ${styles.right} btn`} onClick={handleGoToNext}>
                   ❯
                 </button>
               </>
             )}
-            <div className={`flashcards__bannerWrapper ${showSolution && "smallerText"}`}>
-              <span className="text_overflow_center">
+            <div className={styles.bannerWrapper}>
+              <span className={styles.centerText}>
                 {showSolution ? data[currentIndex]?.solution : data[currentIndex]?.question}
               </span>
             </div>
           </>
         ) : (
-          <div className="flashcards__bannerWrapper">
-            <div className="flashcards__banner_notfound">
+          <div className={styles.bannerWrapper}>
+            <div className={styles.banner_notfound}>
               No Flashcards Found! Create them now!
-              <button className="flashcards__addFlashCard btn " onClick={handleModalOpen}>
+              <button className={`${styles.addFlashCard} btn`} onClick={handleModalOpen}>
                 + Add Flashcard
               </button>
             </div>
@@ -89,15 +88,15 @@ export default function Banner({ data = [], isData, showSolution, setShowSolutio
         )}
       </div>
       {isData && (
-        <div className="flashcards__banner_options">
-          <button className="flashcards__btn btn btn_red" onClick={handleDeleteModalOpen}>
+        <div className={styles.banner_options}>
+          <button className={`${styles.btn} btn red`} onClick={handleDeleteModalOpen}>
             <TrashIcon />
           </button>
-          <button className="flashcards__btn btn btn_yellow edit" onClick={handleUpdateModalOpen}>
+          <button className={`${styles.btn} ${styles.edit} btn yellow`} onClick={handleUpdateModalOpen}>
             Edit
           </button>
           <button
-            className={`flashcards__btn btn answer btn_green ${showSolution && "selected"}`}
+            className={`${styles.btn} ${styles.answer} btn green ${showSolution ? "selected" : ""}`}
             onClick={handleShowSolution}
           >
             View Answer

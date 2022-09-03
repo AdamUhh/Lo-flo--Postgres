@@ -5,6 +5,7 @@ import { useAsyncFn } from "../../../hooks/useAsync";
 import { createSubject } from "../../../services/subjects";
 import ContentInput from "../ContentInput";
 import ModalTitlebar from "../ModalTitlebar";
+import styles from '../../../styles/Modal.module.scss'
 export default function AddSubjectModal({ handleModalOpen }) {
   const { cardIdParam, handleSubjectIdParam } = useUrl();
   const [title, setTitle] = useState("");
@@ -25,7 +26,7 @@ export default function AddSubjectModal({ handleModalOpen }) {
   }
 
   return (
-    <div className="modal__wrapper">
+    <div className={styles.wrapper}>
       <ModalTitlebar
         title={"Subject"}
         actionTitle={"Create"}
@@ -34,7 +35,7 @@ export default function AddSubjectModal({ handleModalOpen }) {
         handleAction={onSubjectCreate}
       />
 
-      <div className="modal__content_container">
+      <div className={styles.content_container}>
         Subject name
         <ContentInput error={error} onSubmit={onSubjectCreate} title={title} setTitle={setTitle} />
       </div>

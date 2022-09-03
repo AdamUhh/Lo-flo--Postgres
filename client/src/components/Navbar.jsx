@@ -6,6 +6,8 @@ import AddCardModal from "./Modal/Cards/AddCardModal";
 import SearchModal from "./Modal/Search/SearchModal";
 import LoadingIcon from "./svg/LoadingIcon";
 import SearchIcon from "./svg/SearchIcon";
+// import '../index.css'
+import styles from "../styles/Navbar.module.scss";
 
 export default function NavBar() {
   const { handleCardIdParam, cardIdParam, handleDeleteSubjectIdParam } = useUrl();
@@ -16,23 +18,23 @@ export default function NavBar() {
   const { modalOpen: searchModalOpen, handleModalOpen: handleSearchModalOpen } = useModal();
 
   return (
-    <div className="navbar__container">
-      <div className="navbar__wrapper">
-        {loading && <LoadingIcon />}
-        <Modal modalOpen={modalOpen} handleModalOpen={handleModalOpen}>
-          <AddCardModal handleModalOpen={handleModalOpen} />
-        </Modal>
-        <Modal modalOpen={searchModalOpen} handleModalOpen={handleSearchModalOpen}>
-          <SearchModal handleModalOpen={handleSearchModalOpen} />
-        </Modal>
-        <div className="navbar__cards">
+    <div className={styles.container}>
+      {loading && <LoadingIcon />}
+      <Modal modalOpen={modalOpen} handleModalOpen={handleModalOpen}>
+        <AddCardModal handleModalOpen={handleModalOpen} />
+      </Modal>
+      <Modal modalOpen={searchModalOpen} handleModalOpen={handleSearchModalOpen}>
+        <SearchModal handleModalOpen={handleSearchModalOpen} />
+      </Modal>
+      <div className={styles.wrapper}>
+        <div className={styles.cards}>
           {error ? (
-            <h4 className="error-msg">{error}</h4>
+            <h4>{error}</h4>
           ) : (
             cards?.map((card) => (
               <div
                 key={card.id}
-                className={`navbar__card ${card.id === cardIdParam && "selected"}`}
+                className={`${styles.card} ${card.id === cardIdParam ? styles.selected : ""}`}
                 onClick={() => {
                   handleCardIdParam(card.id);
                   handleDeleteSubjectIdParam();
@@ -43,11 +45,11 @@ export default function NavBar() {
             ))
           )}
         </div>
-        <button className="navbar__btn btn" onClick={handleModalOpen}>
+        <button className={`${styles.btn} btn`} onClick={handleModalOpen}>
           + Add Card
         </button>
       </div>
-      <button className="navbar__btn btn search" onClick={handleSearchModalOpen}>
+      <button className={`${styles.btn} ${styles.search} btn`} onClick={handleSearchModalOpen}>
         <SearchIcon />
       </button>
     </div>

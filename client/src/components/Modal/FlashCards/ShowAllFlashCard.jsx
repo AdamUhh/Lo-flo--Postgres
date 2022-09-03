@@ -2,7 +2,9 @@ import { usePanel } from "../../../contexts/panelContext";
 import { useUrl } from "../../../contexts/urlContext";
 import { useAsync } from "../../../hooks/useAsync";
 import { getFlashCards } from "../../../services/flashCards";
+import styles from "../../../styles/Modal.module.scss";
 import { ellipsis } from "../../../util";
+import LoadingIcon from "../../svg/LoadingIcon";
 
 export default function ShowAllFlashCardModal({ handleModalOpen }) {
   const { cardIdParam, subjectIdParam } = useUrl();
@@ -18,23 +20,24 @@ export default function ShowAllFlashCardModal({ handleModalOpen }) {
   }
 
   return (
-    <div className="modal__wrapper large">
-      <div className="modal__titlebar_wrapper">
-        <button className="modal__btn btn" onClick={handleModalOpen}>
-          Cancel
+    <div className={`${styles.wrapper} ${styles.large}`}>
+      {loading && <LoadingIcon />}
+      <div className={styles.titlebar_wrapper}>
+        <button className={`${styles.btn} btn`} onClick={handleModalOpen}>
+          Close
         </button>
         <div>All FlashCards</div>
       </div>
-      <div className="modal__content_container">
-        <div className="modal__content_overflow_container">
-          {value?.flashCards.map((fc, indx) => (
+      <div className={styles.content_container}>
+        <div className={styles.content_overflow_container}>
+          {value?.flashCards?.map((fc, indx) => (
             <button
-              className="flashcards__queue_item btn"
+              className={`${styles.queue_item} btn`}
               key={fc.id}
               onClick={() => handleSelectedFlashCard(indx)}
             >
-              <div className="flashcards__queue_indx">{indx + 1}</div>
-              <div className="flashcards__queue_question">{ellipsis(fc.question, 100)}</div>
+              <div className={styles.queue_indx}>{indx + 1}</div>
+              <div className={styles.queue_question}>{ellipsis(fc.question, 100)}</div>
             </button>
           ))}
         </div>

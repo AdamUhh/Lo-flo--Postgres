@@ -5,19 +5,21 @@ import { CardProvider } from "./contexts/cardContext";
 import { FlashCardProvider } from "./contexts/flashcardContext";
 import { SubjectProvider } from "./contexts/subjectContext";
 import { UrlProvider } from "./contexts/urlContext";
-import "./index.css";
+import { ThemeProvider } from "next-themes";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <UrlProvider>
-      <CardProvider>
-        <SubjectProvider>
-          <FlashCardProvider>
-            <App />
-          </FlashCardProvider>
-        </SubjectProvider>
-      </CardProvider>
-    </UrlProvider>
+    <ThemeProvider >
+      <UrlProvider>
+        <CardProvider>
+          <SubjectProvider>
+            <FlashCardProvider>
+              <App />
+            </FlashCardProvider>
+          </SubjectProvider>
+        </CardProvider>
+      </UrlProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );

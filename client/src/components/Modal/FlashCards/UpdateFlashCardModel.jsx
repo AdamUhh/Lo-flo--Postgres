@@ -4,6 +4,7 @@ import { useUrl } from "../../../contexts/urlContext";
 import { useAsyncFn } from "../../../hooks/useAsync";
 import { updateFlashCard } from "../../../services/flashCards";
 import ModalTitlebar from "../ModalTitlebar";
+import styles from '../../../styles/Modal.module.scss'
 export default function UpdateFlashCardModel({
   handleModalOpen,
   initialQuestion = "",
@@ -31,7 +32,7 @@ export default function UpdateFlashCardModel({
   }
 
   return (
-    <div className="modal__wrapper large">
+    <div className={`${styles.wrapper} ${styles.large}`}>
       <ModalTitlebar
         title={"FlashCard"}
         actionTitle={"Update"}
@@ -40,12 +41,12 @@ export default function UpdateFlashCardModel({
         handleAction={onFlashCardUpdate}
       />
 
-      <div className="modal__content_container">
-        <div className="modal__textarea_container">
+      <div className={styles.content_container}>
+        <div className={styles.textarea_container}>
           <label htmlFor="question">Question</label>
           <textarea
             id="question"
-            className="modal__textarea question"
+            className={styles.textarea}
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="Your Question"
@@ -54,7 +55,7 @@ export default function UpdateFlashCardModel({
           <label htmlFor="solution">Solution</label>
           <textarea
             id="solution"
-            className="modal__textarea solution"
+            className={styles.textarea}
             value={solution}
             onChange={(e) => setSolution(e.target.value)}
             placeholder="Your Solution"

@@ -3,7 +3,7 @@ import { useSubjectsContext } from "../../../contexts/subjectContext";
 import { useUrl } from "../../../contexts/urlContext";
 import { useAsyncFn } from "../../../hooks/useAsync";
 import { updateSubject } from "../../../services/subjects";
-import ButtonLoadingIcon from "../../svg/ButtonLoadingIcon";
+import styles from "../../../styles/Modal.module.scss";
 import ContentInput from "../ContentInput";
 import ModalTitlebar from "../ModalTitlebar";
 export default function UpdateSubjectModal({ handleModalOpen, initialValue = "", reAssignTitle }) {
@@ -28,7 +28,7 @@ export default function UpdateSubjectModal({ handleModalOpen, initialValue = "",
   }
 
   return (
-    <div className="modal__wrapper">
+    <div className={styles.wrapper}>
       <ModalTitlebar
         title={"Subject"}
         actionTitle={"Update"}
@@ -36,7 +36,7 @@ export default function UpdateSubjectModal({ handleModalOpen, initialValue = "",
         handleModal={handleModalOpen}
         handleAction={onSubjectUpdate}
       />
-      <div className="modal__content_container">
+      <div className={styles.content_container}>
         Subject name
         <ContentInput error={error} onSubmit={onSubjectUpdate} title={title} setTitle={setTitle} />
       </div>

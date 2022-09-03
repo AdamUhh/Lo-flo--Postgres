@@ -3,6 +3,7 @@ import { useUrl } from "../../../contexts/urlContext";
 import { useAsyncFn } from "../../../hooks/useAsync";
 import { deleteFlashCard } from "../../../services/flashCards";
 import ModalTitlebar from "../ModalTitlebar";
+import styles from '../../../styles/Modal.module.scss'
 
 export default function DeleteFlashCardModal({
   handleModalOpen,
@@ -28,7 +29,7 @@ export default function DeleteFlashCardModal({
   }
 
   return (
-    <div className="modal__wrapper">
+    <div className={styles.wrapper}>
       <ModalTitlebar
         title={"FlashCard"}
         actionTitle={"Delete"}
@@ -37,10 +38,10 @@ export default function DeleteFlashCardModal({
         handleAction={onFlashCardDelete}
       />
 
-      <div className="modal__content_container">
-        <div className="modal__delete_title">
+      <div className={styles.content_container}>
+        <div className={styles.delete_title}>
           <div>Are you sure you wish to delete</div>
-          <div className="modal__overflow_container">{title}</div>
+          <div className={styles.overflow_container}>{title}</div>
         </div>
         {error && error}
       </div>

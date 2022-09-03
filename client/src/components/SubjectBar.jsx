@@ -12,6 +12,7 @@ import UpdateSubjectModal from "./Modal/Subjects/UpdateSubjectModal";
 import TrashIcon from "./svg/TrashIcon";
 import LoadingIcon from "./svg/LoadingIcon";
 import { usePanel } from "../contexts/panelContext";
+import styles from "../styles/Subjectbar.module.scss";
 
 export default function SubjectBar() {
   const { cardIdParam, subjectIdParam, handleSubjectIdParam } = useUrl();
@@ -42,12 +43,12 @@ export default function SubjectBar() {
 
   if (cardIdParam.length < 1)
     return (
-      <div className="subjectbar__container">
-        <div className="subjectbar__ends top">Select a card</div>
+      <div className={styles.container}>
+        <div className={`${styles.ends} ${styles.top}`}>Select a card</div>
       </div>
     );
   return (
-    <div className="subjectbar__container">
+    <div className={styles.container}>
       {loading && <LoadingIcon />}
       <Modal modalOpen={modalOpen} handleModalOpen={handleModalOpen}>
         <AddSubjectModal handleModalOpen={handleModalOpen} />
@@ -76,17 +77,23 @@ export default function SubjectBar() {
         <h5>{error}</h5>
       ) : (
         <>
-          <div className="subjectbar__ends top">
-            <button className="tinybtn red" onClick={() => handleDeleteCardModalOpen()} />
-            <button className="tinybtn" onClick={() => handleUpdateCardModalOpen()} />
+          <div className={`${styles.ends} ${styles.top}`}>
+            <button
+              className={` ${styles.tinybtn} tinybtn red`}
+              onClick={() => handleDeleteCardModalOpen()}
+            />
+            <button
+              className={` ${styles.tinybtn} tinybtn yellow`}
+              onClick={() => handleUpdateCardModalOpen()}
+            />
             {cardTitle}
           </div>
-          <div className={`subjectbar__wrapper ${subjectIdParam.length < 1 && "offset"}`}>
+          <div className={`${styles.wrapper} ${subjectIdParam.length < 1 ? styles.offset : ""}`}>
             {value != null &&
               value.subjects.map((subject) => (
                 <button
                   key={subject.id}
-                  className={`subjectbar__title btn ${subject.id === subjectIdParam && "selected"}`}
+                  className={`${styles.title} ${subject.id === subjectIdParam && styles.selected} btn`}
                   onClick={() => handleSelectedSubj(subject.id, subject.title)}
                 >
                   {subject.title}
@@ -94,22 +101,22 @@ export default function SubjectBar() {
               ))}
           </div>
           {value != null && subjectIdParam.length > 0 && (
-            <div className="subjectbar__ends_options">
+            <div className={styles.ends_options}>
               <button
-                className="subjectbar__ends bottom btn delete btn_red"
+                className={`${styles.ends} ${styles.bottom} ${styles.delete} btn red`}
                 onClick={handleDeleteSubjectModalOpen}
               >
                 <TrashIcon />
               </button>
               <button
-                className="subjectbar__ends bottom btn edit btn_yellow"
+                className={`${styles.ends} ${styles.bottom} ${styles.edit} btn yellow`}
                 onClick={handleUpdateSubjectModalOpen}
               >
                 Edit
               </button>
             </div>
           )}
-          <button className="subjectbar__ends bottom btn" onClick={handleModalOpen}>
+          <button className={`${styles.ends} ${styles.bottom} btn`} onClick={handleModalOpen}>
             + Add Subject
           </button>
         </>

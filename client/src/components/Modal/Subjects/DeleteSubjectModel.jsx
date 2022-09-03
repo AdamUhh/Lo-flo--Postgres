@@ -3,6 +3,7 @@ import { useUrl } from "../../../contexts/urlContext";
 import { useAsyncFn } from "../../../hooks/useAsync";
 import { deleteSubject } from "../../../services/subjects";
 import ModalTitlebar from "../ModalTitlebar";
+import styles from '../../../styles/Modal.module.scss'
 export default function DeleteSubjectModal({ handleModalOpen, title = "N/A" }) {
   const { loading, error, execute: deleteSubjectFn } = useAsyncFn(deleteSubject);
   const { deleteLocalSubject } = useSubjectsContext();
@@ -19,7 +20,7 @@ export default function DeleteSubjectModal({ handleModalOpen, title = "N/A" }) {
   }
 
   return (
-    <div className="modal__wrapper">
+    <div className={styles.wrapper}>
       <ModalTitlebar
         title={"Subject"}
         actionTitle={"Delete"}
@@ -28,10 +29,10 @@ export default function DeleteSubjectModal({ handleModalOpen, title = "N/A" }) {
         handleAction={onSubjectDelete}
       />
 
-      <div className="modal__content_container">
-        <div className="modal__delete_title">
+      <div className={styles.content_container}>
+        <div className={styles.delete_title}>
           <div>Are you sure you wish to delete</div>
-          <div className="modal__overflow_container">{title}</div>
+          <div className={styles.overflow_container}>{title}</div>
         </div>
         {error && error}
       </div>

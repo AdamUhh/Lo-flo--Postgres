@@ -5,11 +5,12 @@ import { useAsyncFn } from "../../../hooks/useAsync";
 import { searchCards } from "../../../services/cards";
 import LoadingIcon from "../../svg/LoadingIcon";
 import Flashcards from "./Flashcards";
+import styles from "../../../styles/Search.module.scss";
 
 const CheckBox = ({ label, value, onChange, disable }) => {
   return (
-    <label className={`${disable ? "crossout" : ""}`}>
-      <input className="search_checkbox" type="checkbox" checked={value} onChange={onChange} />
+    <label className={disable ? styles.crossout : ""}>
+      <input className={styles.checkbox} type="checkbox" checked={value} onChange={onChange} />
       <span>{label}</span>
     </label>
   );
@@ -31,9 +32,9 @@ export default function SearchModal({ handleModalOpen }) {
 
   function handleSearch(e) {
     e.preventDefault();
-    return searchCardsFn({ searchInput, ...filters }).then((result) => {
-      setResult(result);
-    });
+    searchCardsFn({ searchInput, ...filters }).then(setResult);
+
+    setSearchInput("");
   }
 
   function handleSearchInput(e) {
@@ -43,14 +44,6 @@ export default function SearchModal({ handleModalOpen }) {
   const handleChange = (e) => {
     const handle = e.target.labels[0].childNodes[1].innerText;
     switch (handle) {
-      // case "Card":
-      //   setFilters((prevState) => ({
-      //     ...prevState,
-      //     Card: !prevState.Card,
-      //     Subject: false,
-      //     FlashCard: false,
-      //   }));
-      //   break;
       case "Subject":
         setFilters((prevState) => ({ ...prevState, Subject: !prevState.Subject, FlashCard: false }));
         break;
@@ -77,70 +70,68 @@ export default function SearchModal({ handleModalOpen }) {
     goToIndex();
     handleModalOpen();
   }
-  function handleFlashCard(e, cardId, subjectId, indx) {
+  function handleFlashCard(e, cardId, subjectId, flashCardId, indx) {
     e.stopPropagation();
     handleCardIdParam(cardId);
     handleSubjectIdParam(subjectId);
-    goToIndex(indx);
+    goToIndex(indx, flashCardId);
     handleModalOpen();
   }
-
   return (
-    <div className="search__container">
-      <div className="search_wrapper">
-        <form onSubmit={handleSearch}>
-          <div className="search_wrapper_flex">
-            <input
-              type="text"
-              className="search_input"
-              value={searchInput}
-              onChange={handleSearchInput}
-              autoFocus
-              placeholder="🔎 Search"
-            />
-            <button className="btn" type="submit">
-              Search
-            </button>
-          </div>
-        </form>
-        <div className="search_checkbox_container">
-          {Object.keys(filters).map((cb) => (
-            <CheckBox
-              key={cb}
-              label={cb}
-              value={filters[cb]}
-              onChange={handleChange}
-              disable={(filters.FlashCard !== true && cb === "Solution") || cb === "Card"}
-            />
-          ))}
+    <div className={styles.container}>
+      <form onSubmit={handleSearch}>
+        <div className={styles.wrapper_flex}>
+          <input
+            type="text"
+            value={searchInput}
+            onChange={handleSearchInput}
+            autoFocus
+            placeholder="🔎 Search"
+          />
+          <button className="btn" type="submit">
+            Search
+          </button>
         </div>
+      </form>
+      <div className={styles.checkbox_container}>
+        {Object.keys(filters).map((cb) => (
+          <CheckBox
+            key={cb}
+            label={cb}
+            value={filters[cb]}
+            onChange={handleChange}
+            disable={(filters.FlashCard !== true && cb === "Solution") || cb === "Card"}
+          />
+        ))}
       </div>
-      <div className="search_result_container">
+      <div className={styles.result_container}>
         {loading ? (
           <LoadingIcon />
         ) : error ? (
           error
         ) : (
           result?.map((r) => (
-            <div key={r.id} className="search_result_wrapper" onClick={() => handleCard(r.id)}>
-              <div className="search_result_title">{r.title}</div>
+            <div key={r.id} className={styles.result_wrapper} onClick={() => handleCard(r.id)}>
+              <div className={styles.result_title}>{r.title}</div>
               {filters.Subject && (
-                <div className={`search_result_subject_container ${filters.FlashCard ? "" : "subjOnly"}`}>
+                <div
+                  className={`${styles.result_subject_container} ${filters.FlashCard ? "" : styles.subjOnly}`}
+                >
                   {r?.subjects?.map((rs) => (
-                    <div key={rs.id} className="search_result_subject_wrapper">
+                    <div key={rs.id} className={styles.result_subject_wrapper}>
                       <span
-                        className="search_result_subject_title btn"
+                        className={`${styles.result_subject_title} btn`}
                         onClick={(e) => handleSubject(e, r.id, rs.id)}
                       >
                         {rs.title}
                       </span>
                       {filters.FlashCard && (
-                        <div className="search_result_flashcard_wrapper ">
+                        <div className={styles.result_flashcard_wrapper}>
                           {rs?.flashCards?.map((rsf, indx) => (
                             <Flashcards
                               key={rsf.id}
                               rsf={rsf}
-                              handleFlashCard={(e) => handleFlashCard(e, r.id, rs.id, indx)}
+                              handleFlashCard={(e) => handleFlashCard(e, r.id, rs.id, rsf.id, indx)}
                               searchSolution={filters.Solution}
                             />
                           ))}
