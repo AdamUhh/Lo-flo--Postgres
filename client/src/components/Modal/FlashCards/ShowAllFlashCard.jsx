@@ -8,14 +8,15 @@ import LoadingIcon from "../../svg/LoadingIcon";
 
 export default function ShowAllFlashCardModal({ handleModalOpen }) {
   const { cardIdParam, subjectIdParam } = useUrl();
-  const { goToIndex } = usePanel();
+  const { goToIndex, handleShowSolution } = usePanel();
 
   const { loading, error, value } = useAsync(() =>
     getFlashCards({ cardId: cardIdParam, subjectId: subjectIdParam }, [cardIdParam, subjectIdParam])
   );
 
-  function handleSelectedFlashCard(indx) {
-    goToIndex(indx);
+  function handleSelectedFlashCard(indx, flashCardId) {
+    goToIndex(indx, flashCardId);
+    handleShowSolution(false);
     handleModalOpen();
   }
 
@@ -34,7 +35,7 @@ export default function ShowAllFlashCardModal({ handleModalOpen }) {
             <button
               className={`${styles.queue_item} btn`}
               key={fc.id}
-              onClick={() => handleSelectedFlashCard(indx)}
+              onClick={() => handleSelectedFlashCard(indx, fc.id)}
             >
               <div className={styles.queue_indx}>{indx + 1}</div>
               <div className={styles.queue_question}>{ellipsis(fc.question, 100)}</div>

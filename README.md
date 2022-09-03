@@ -3,8 +3,9 @@
 Lo-flo is a localized flashcard app, run on your client via docker (postgresql), react and node.
 
 ## Screenshots
-![Gif on how it works](https://i.imgur.com/bOdblj3.gif)
-
+![Gif on how it works](https://i.imgur.com/xifrfrf.gif)
+![Gif on search](https://i.imgur.com/8n5I516.gif)
+![Gif on themes](https://i.imgur.com/GDb3n6H.gif)
 
 ## How To Run
 

@@ -6,7 +6,6 @@ import AddCardModal from "./Modal/Cards/AddCardModal";
 import SearchModal from "./Modal/Search/SearchModal";
 import LoadingIcon from "./svg/LoadingIcon";
 import SearchIcon from "./svg/SearchIcon";
-// import '../index.css'
 import styles from "../styles/Navbar.module.scss";
 
 export default function NavBar() {
@@ -14,8 +13,8 @@ export default function NavBar() {
 
   const { loading, error, cardData: cards } = useCardsContext();
 
-  const { modalOpen, handleModalOpen } = useModal();
-  const { modalOpen: searchModalOpen, handleModalOpen: handleSearchModalOpen } = useModal();
+  const [modalOpen, handleModalOpen ] = useModal();
+  const [ searchModalOpen,  handleSearchModalOpen ] = useModal();
 
   return (
     <div className={styles.container}>

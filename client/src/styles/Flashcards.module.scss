@@ -17,30 +17,31 @@
   width: 100%;
   height: 500px;
   background-color: var(--foreground);
-  border-radius: 35px;
+  border-radius: 20px;
   padding: 20px 7%;
   position: relative;
+  
+  .Arrow {
+    position: absolute;
+    height: 100%;
+    width: 7%;
+    max-width: 100px;
+    top: 50%;
+    transform: translate(0, -50%);
+    font-size: 20px;
+    background-color: transparent;
+    color: var(--text);
+    z-index: 1;
+  
+    &.left {
+      left: 0px;
+    }
+    &.right {
+      right: 0px;
+    }
+  }
 }
 
-.Arrow {
-  position: absolute;
-  height: 100%;
-  width: 7%;
-  max-width: 100px;
-  top: 50%;
-  transform: translate(0, -50%);
-  font-size: 20px;
-  background-color: var(--foreground);
-  color: var(--text);
-  z-index: 1;
-
-  &.left {
-    left: 0px;
-  }
-  &.right {
-    right: 0px;
-  }
-}
 
 .bannerWrapper {
   display: flex;
@@ -69,7 +70,7 @@
       margin-top: 50px;
       padding: 7px 50px;
       border: 2px solid var(--bar);
-
+      color: var(--text);
       width: fit-content;
       margin: 20px auto;
     }
@@ -139,16 +140,16 @@
       stroke: var(--buttontext);
     }
   }
-}
 
-.datapanel_addFlashCard {
-  width: 100%;
-  padding: 15px;
-  background-color: var(--uniquebtn);
-  color: var(--uniquebtntext);
+  .datapanel_addFlashCard {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--uniquebtn);
+    color: var(--uniquebtntext);
 
-  &:hover {
-    background-color: var(--uniquebtnhover);
+    &:hover {
+      background-color: var(--uniquebtnhover);
+    }
   }
 }
 
@@ -187,6 +188,7 @@
   padding: 10px 0;
 
   .queue_title {
+    color: var(--text);
     font-size: 14px;
   }
 

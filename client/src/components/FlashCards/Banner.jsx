@@ -1,40 +1,31 @@
-import { useEffect } from "react";
 import { usePanel } from "../../contexts/panelContext";
-import { useUrl } from "../../contexts/urlContext";
 import { useModal } from "../../hooks/useModal";
+import styles from "../../styles/Flashcards.module.scss";
 import Modal from "../Modal";
 import AddFlashCardModal from "../Modal/FlashCards/AddFlashCardModel";
 import DeleteFlashCardModal from "../Modal/FlashCards/DeleteFlashCardModel";
 import UpdateFlashCardModal from "../Modal/FlashCards/UpdateFlashCardModel";
 import TrashIcon from "../svg/TrashIcon";
-import styles from "../../styles/Flashcards.module.scss";
 
-export default function Banner({ data = [], isData, showSolution, setShowSolution }) {
-  const { currentIndex, maxLength, goToNext, goToPrevious, goToIndex } = usePanel();
-  const { handleFlashCardIdParam } = useUrl();
+export default function Banner({ data = [], isData }) {
+  const { currentIndex, goToNext, goToPrevious, showSolution, handleShowSolution } = usePanel();
 
   const handleGoToPrevious = () => {
-    setShowSolution(false);
-    goToPrevious();
+    handleShowSolution(false);
+    goToPrevious(data);
   };
   const handleGoToNext = () => {
-    setShowSolution(false);
-    goToNext();
+    handleShowSolution(false);
+    goToNext(data);
   };
 
-  const handleShowSolution = () => {
-    setShowSolution((prev) => !prev);
+  const handleShowSolutionFn = () => {
+    handleShowSolution();
   };
 
-  // useEffect(() => {
-  //   if (data.length > 0) {
-  //     handleFlashCardIdParam(data[currentIndex]?.id || "");
-  //   }
-  // }, [currentIndex]);
-
-  const { modalOpen, handleModalOpen } = useModal();
-  const { modalOpen: updateModalOpen, handleModalOpen: handleUpdateModalOpen } = useModal();
-  const { modalOpen: deleteModalOpen, handleModalOpen: handleDeleteModalOpen } = useModal();
+  const [modalOpen, handleModalOpen] = useModal();
+  const [updateModalOpen, handleUpdateModalOpen] = useModal();
+  const [deleteModalOpen, handleDeleteModalOpen] = useModal();
 
   return (
     <>
@@ -53,8 +44,6 @@ export default function Banner({ data = [], isData, showSolution, setShowSolutio
           handleModalOpen={handleDeleteModalOpen}
           title={data[currentIndex]?.question}
           currentIndex={currentIndex}
-          maxLength={maxLength}
-          assignCurrentIndx={goToIndex}
         />
       </Modal>
       <div className={styles.banner}>
@@ -97,7 +86,7 @@ export default function Banner({ data = [], isData, showSolution, setShowSolutio
           </button>
           <button
             className={`${styles.btn} ${styles.answer} btn green ${showSolution ? "selected" : ""}`}
-            onClick={handleShowSolution}
+            onClick={handleShowSolutionFn}
           >
             View Answer
           </button>

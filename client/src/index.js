@@ -6,17 +6,20 @@ import { FlashCardProvider } from "./contexts/flashcardContext";
 import { SubjectProvider } from "./contexts/subjectContext";
 import { UrlProvider } from "./contexts/urlContext";
 import { ThemeProvider } from "next-themes";
+import { PanelProvider } from "./contexts/panelContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ThemeProvider >
+    <ThemeProvider>
       <UrlProvider>
         <CardProvider>
           <SubjectProvider>
-            <FlashCardProvider>
-              <App />
-            </FlashCardProvider>
+            <PanelProvider>
+              <FlashCardProvider>
+                <App />
+              </FlashCardProvider>
+            </PanelProvider>
           </SubjectProvider>
         </CardProvider>
       </UrlProvider>

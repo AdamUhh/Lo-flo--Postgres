@@ -1,29 +1,27 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePanel } from "../contexts/panelContext";
 import { useSubjectsContext } from "../contexts/subjectContext";
 import { useUrl } from "../contexts/urlContext";
 import { useModal } from "../hooks/useModal";
+import styles from "../styles/Subjectbar.module.scss";
 import Modal from "./Modal";
 import DeleteCardModal from "./Modal/Cards/DeleteCardModal";
 import UpdateCardModal from "./Modal/Cards/UpdateCardModal";
 import AddSubjectModal from "./Modal/Subjects/AddSubjectModel";
 import DeleteSubjectModal from "./Modal/Subjects/DeleteSubjectModel";
 import UpdateSubjectModal from "./Modal/Subjects/UpdateSubjectModal";
-import TrashIcon from "./svg/TrashIcon";
 import LoadingIcon from "./svg/LoadingIcon";
-import { usePanel } from "../contexts/panelContext";
-import styles from "../styles/Subjectbar.module.scss";
+import TrashIcon from "./svg/TrashIcon";
 
 export default function SubjectBar() {
   const { cardIdParam, subjectIdParam, handleSubjectIdParam } = useUrl();
   const { loading, error, subjectData: value } = useSubjectsContext();
-  const { goToIndex } = usePanel();
-
-  const { modalOpen, handleModalOpen } = useModal();
-  const { modalOpen: deleteCardModalOpen, handleModalOpen: handleDeleteCardModalOpen } = useModal();
-  const { modalOpen: deleteSubjectModalOpen, handleModalOpen: handleDeleteSubjectModalOpen } = useModal();
-  const { modalOpen: updateSubjectModalOpen, handleModalOpen: handleUpdateSubjectModalOpen } = useModal();
-  const { modalOpen: updateCardModalOpen, handleModalOpen: handleUpdateCardModalOpen } = useModal();
+  const { handleShowSolution } = usePanel();
+  const [modalOpen, handleModalOpen] = useModal();
+  const [deleteCardModalOpen, handleDeleteCardModalOpen] = useModal();
+  const [deleteSubjectModalOpen, handleDeleteSubjectModalOpen] = useModal();
+  const [updateSubjectModalOpen, handleUpdateSubjectModalOpen] = useModal();
+  const [updateCardModalOpen, handleUpdateCardModalOpen] = useModal();
 
   const [subjectTitle, setSubjectTitle] = useState("");
   const [cardTitle, setCardTitle] = useState("");
@@ -36,9 +34,9 @@ export default function SubjectBar() {
   }, [value?.title]);
 
   const handleSelectedSubj = (id, title) => {
+    handleShowSolution(false);
     handleSubjectIdParam(id);
     setSubjectTitle(title);
-    goToIndex();
   };
 
   if (cardIdParam.length < 1)

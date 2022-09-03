@@ -19,8 +19,9 @@ const CheckBox = ({ label, value, onChange, disable }) => {
 export default function SearchModal({ handleModalOpen }) {
   const [searchInput, setSearchInput] = useState("");
 
-  const { handleCardIdParam, handleSubjectIdParam } = useUrl();
-  const { goToIndex } = usePanel();
+  const { handleCardIdParam, handleSubjectIdParam, handleFlashCardIdParam, handleDeleteSubjectIdParam } =
+    useUrl();
+  const { goToIndex, goToSearchIndex, handleShowSolution } = usePanel();
   const { loading, error, execute: searchCardsFn } = useAsyncFn(searchCards);
   const [filters, setFilters] = useState({
     Card: true,
@@ -61,22 +62,31 @@ export default function SearchModal({ handleModalOpen }) {
   };
   function handleCard(cardId) {
     handleCardIdParam(cardId);
+    handleDeleteSubjectIdParam();
+    handleShowSolution(false);
+    goToIndex();
     handleModalOpen();
   }
   function handleSubject(e, cardId, subjectId) {
     e.stopPropagation();
+
     handleCardIdParam(cardId);
     handleSubjectIdParam(subjectId);
+    handleFlashCardIdParam();
+    handleShowSolution(false);
     goToIndex();
     handleModalOpen();
   }
-  function handleFlashCard(e, cardId, subjectId, flashCardId, indx) {
+  function handleFlashCard(e, cardId, subjectId, flashCardId) {
     e.stopPropagation();
+
     handleCardIdParam(cardId);
     handleSubjectIdParam(subjectId);
-    goToIndex(indx, flashCardId);
+    handleShowSolution(false);
+    goToSearchIndex(flashCardId);
     handleModalOpen();
   }
+
   return (
     <div className={styles.container}>
       <form onSubmit={handleSearch}>
@@ -104,11 +114,12 @@ export default function SearchModal({ handleModalOpen }) {
           />
         ))}
       </div>
+
+      {error && <div className={styles.errormsg}>{error}</div>}
+      {!error && result.length < 1 && <div className={styles.errormsg}>Search returned nothing!</div>}
       <div className={styles.result_container}>
         {loading ? (
           <LoadingIcon />
-        ) : error ? (
-          error
         ) : (
           result?.map((r) => (
             <div key={r.id} className={styles.result_wrapper} onClick={() => handleCard(r.id)}>
@@ -127,11 +138,11 @@ export default function SearchModal({ handleModalOpen }) {
                       </span>
                       {filters.FlashCard && (
                         <div className={styles.result_flashcard_wrapper}>
-                          {rs?.flashCards?.map((rsf, indx) => (
+                          {rs?.flashCards?.map((rsf) => (
                             <Flashcards
                               key={rsf.id}
                               rsf={rsf}
-                              handleFlashCard={(e) => handleFlashCard(e, r.id, rs.id, rsf.id, indx)}
+                              handleFlashCard={(e) => handleFlashCard(e, r.id, rs.id, rsf.id)}
                               searchSolution={filters.Solution}
                             />
                           ))}

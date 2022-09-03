@@ -2,15 +2,17 @@ import { usePanel } from "../../contexts/panelContext";
 import { ellipsis } from "../../util";
 import styles from "../../styles/Flashcards.module.scss";
 
-export default function Queue({ data, setShowSolution }) {
-  const { currentIndex, maxLength, goToIndex } = usePanel();
+export default function Queue({ data }) {
+  const { currentIndex, maxLength: mxl, goToIndex, handleShowSolution } = usePanel();
+
+  const maxLength = mxl(data);
 
   const slicedIndx = currentIndex === maxLength - 1 ? 0 : currentIndex + 1;
   const slicedIndx2 = currentIndex === maxLength - 1 ? -1 : maxLength;
 
   function handleGoTo(indx) {
-    setShowSolution(false);
-    goToIndex(indx);
+    handleShowSolution(false);
+    goToIndex(indx, data[indx].id);
   }
 
   return (

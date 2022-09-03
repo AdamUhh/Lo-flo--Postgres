@@ -1,16 +1,15 @@
 import { usePanel } from "../../contexts/panelContext";
 import { useModal } from "../../hooks/useModal";
+import styles from "../../styles/Flashcards.module.scss";
 import Modal from "../Modal";
 import AddFlashCardModal from "../Modal/FlashCards/AddFlashCardModel";
 import ShowAllFlashCardModal from "../Modal/FlashCards/ShowAllFlashCard";
 import ListIcon from "../svg/ListIcon";
-import styles from "../../styles/Flashcards.module.scss";
 
-export default function DataPanel({ isData }) {
-  const { currentIndex, maxLength } = usePanel();
-  const { modalOpen, handleModalOpen } = useModal();
-  const { modalOpen: AllFlashCardModalOpen, handleModalOpen: handleAllFlashCardModalOpen } = useModal();
-
+export default function DataPanel({ isData, maxLength }) {
+  const { currentIndex } = usePanel();
+  const [modalOpen, handleModalOpen] = useModal();
+  const [AllFlashCardModalOpen, handleAllFlashCardModalOpen] = useModal();
   return (
     <div className={styles.datapanel_container}>
       <Modal modalOpen={modalOpen} handleModalOpen={handleModalOpen}>

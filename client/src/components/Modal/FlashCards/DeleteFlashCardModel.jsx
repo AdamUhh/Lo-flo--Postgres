@@ -3,14 +3,12 @@ import { useUrl } from "../../../contexts/urlContext";
 import { useAsyncFn } from "../../../hooks/useAsync";
 import { deleteFlashCard } from "../../../services/flashCards";
 import ModalTitlebar from "../ModalTitlebar";
-import styles from '../../../styles/Modal.module.scss'
+import styles from "../../../styles/Modal.module.scss";
 
 export default function DeleteFlashCardModal({
   handleModalOpen,
   title = "N/A",
   currentIndex,
-  maxLength,
-  assignCurrentIndx,
 }) {
   const { loading, error, execute: deleteFlashCardFn } = useAsyncFn(deleteFlashCard);
   const { deleteLocalFlashCard } = useFlashCardsContext();
@@ -19,11 +17,7 @@ export default function DeleteFlashCardModal({
   function onFlashCardDelete(e) {
     e.preventDefault();
     return deleteFlashCardFn({ cardId, subjectId, flashCardId }).then((flashCard) => {
-      deleteLocalFlashCard(flashCard.id);
-
-      // if user deleted last item
-      if (currentIndex === maxLength - 1) assignCurrentIndx(maxLength - 2);
-
+      deleteLocalFlashCard(flashCard.id, currentIndex);
       handleModalOpen();
     });
   }

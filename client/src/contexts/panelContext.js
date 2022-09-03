@@ -1,41 +1,59 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
+import { useUrl } from "./urlContext";
 const Context = React.createContext();
 
 export function usePanel() {
   return useContext(Context);
 }
 
-export function PanelProvider({ children, data }) {
+export function PanelProvider({ children }) {
+  const { handleFlashCardIdParam } = useUrl();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [searchQueryId, setSearchQueryId] = useState("");
+  const [showSolution, setShowSolution] = useState(false);
 
-  const goToNext = () => {
+  const handleShowSolution = (bool) => {
+    if (bool !== undefined) setShowSolution(false);
+    else setShowSolution((prev) => !prev);
+  };
+
+  const goToNext = (data) => {
     const isLastSlide = currentIndex === data?.length - 1;
     const newIndex = isLastSlide ? 0 : currentIndex + 1;
-    setCurrentIndex(newIndex);
+    goToIndex(newIndex, data[newIndex].id);
   };
-  const goToPrevious = () => {
+  const goToPrevious = (data) => {
     const isFirstSlide = currentIndex === 0;
     const newIndex = isFirstSlide ? data?.length - 1 : currentIndex - 1;
-    setCurrentIndex(newIndex);
+    goToIndex(newIndex, data[newIndex].id);
   };
 
   const goToIndex = (indx = 0, flashCardId = "") => {
-    // if (flashCardId.length > 0) {
-    //   const newIndex = data.findIndex((fc) => fc.id === flashCardId);
-    //   setCurrentIndex(newIndex);
-    // } else {
-    // }
+    handleFlashCardIdParam(flashCardId);
     setCurrentIndex(indx);
+  };
+
+  const goToSearchIndex = (flashCardId) => {
+    setSearchQueryId(flashCardId);
+  };
+
+  const maxLength = (data) => {
+    return data?.length || 0;
   };
 
   return (
     <Context.Provider
       value={{
+        searchQueryId,
+        setSearchQueryId,
         currentIndex,
         goToNext,
         goToPrevious,
         goToIndex,
-        maxLength: data?.length || 0,
+        goToSearchIndex,
+        maxLength,
+        showSolution,
+        handleShowSolution,
       }}
     >
       {children}

@@ -20,6 +20,7 @@ export default function ThemeModal({ handleModalOpen }) {
         <div className={modalStyles.content_overflow_container}>
           {themes.map((t) => (
             <div
+              key={t}
               className={`${styles.container} ${styles[t]} ${theme === t ? styles.selected : ""} btn`}
               onClick={() => setTheme(t)}
             >
