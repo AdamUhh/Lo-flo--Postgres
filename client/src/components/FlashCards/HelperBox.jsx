@@ -25,10 +25,11 @@ export default function HelperBox() {
           <h2>Hi! 👋🏻 </h2>
           <h4>
             Get started by
+            <br />
             <button className="btn" onClick={handleModalOpen}>
               Creating
             </button>
-            or Selecting a card!
+            or <span>selecting</span> a <p>Card!</p>
           </h4>
         </div>
       ) : (
@@ -38,11 +39,12 @@ export default function HelperBox() {
               <span>Nothing to see here...</span> yet!
             </h3>
             <h4>
-              Get started by{" "}
+              Get started by
+              <br />
               <button className="btn" onClick={handleSubjectModalOpen}>
                 Creating
               </button>{" "}
-              or selecting a Subject!
+              or <span>selecting</span> a <p>Subject!</p>
             </h4>
           </div>
         )

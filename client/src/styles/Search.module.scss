@@ -135,14 +135,17 @@
   overflow: hidden;
 
   &:hover {
-    filter: brightness(0.98);
+    background-color: var(--background);
     cursor: pointer;
   }
 
   .result_title {
     width: 100%;
-    border-bottom: 1px solid var(--bar);
-    margin-bottom: 10px;
+
+    &.underline {
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--bar);
+    }
   }
 }
 

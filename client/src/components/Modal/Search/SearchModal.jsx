@@ -116,14 +116,22 @@ export default function SearchModal({ handleModalOpen }) {
       </div>
 
       {error && <div className={styles.errormsg}>{error}</div>}
-      {!error && result && result?.length < 1 && <div className={styles.errormsg}>Search returned nothing!</div>}
+      {!error && result && result?.length < 1 && (
+        <div className={styles.errormsg}>Search returned nothing!</div>
+      )}
       <div className={styles.result_container}>
         {loading ? (
           <LoadingIcon />
         ) : (
           result?.map((r) => (
             <div key={r.id} className={styles.result_wrapper} onClick={() => handleCard(r.id)}>
-              <div className={styles.result_title}>{r.title}</div>
+              <div
+                className={`${styles.result_title} ${
+                  filters.Subject && r?.subjects.length > 0 ? styles.underline : ""
+                }`}
+              >
+                {r.title}
+              </div>
               {filters.Subject && (
                 <div
                   className={`${styles.result_subject_container} ${filters.FlashCard ? "" : styles.subjOnly}`}
