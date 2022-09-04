@@ -127,7 +127,7 @@ export default function SearchModal({ handleModalOpen }) {
             <div key={r.id} className={styles.result_wrapper} onClick={() => handleCard(r.id)}>
               <div
                 className={`${styles.result_title} ${
-                  filters.Subject && r?.subjects.length > 0 ? styles.underline : ""
+                  filters.Subject && r?.subjects?.length > 0 ? styles.underline : ""
                 }`}
               >
                 {r.title}
