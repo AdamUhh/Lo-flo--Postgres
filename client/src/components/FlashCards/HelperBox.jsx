@@ -3,16 +3,21 @@ import { useModal } from "../../hooks/useModal";
 import styles from "../../styles/Flashcards.module.scss";
 import Modal from "../Modal";
 import AddCardModal from "../Modal/Cards/AddCardModal";
+import AddSubjectModal from "../Modal/Subjects/AddSubjectModel";
 
 export default function HelperBox() {
   const { cardIdParam, subjectIdParam } = useUrl();
 
   const [modalOpen, handleModalOpen] = useModal();
+  const [subjectModalOpen, handleSubjectModalOpen] = useModal();
 
   return (
     <div className={styles.helper_container}>
       <Modal modalOpen={modalOpen} handleModalOpen={handleModalOpen}>
         <AddCardModal handleModalOpen={handleModalOpen} />
+      </Modal>
+      <Modal modalOpen={subjectModalOpen} handleModalOpen={handleSubjectModalOpen}>
+        <AddSubjectModal handleModalOpen={handleSubjectModalOpen} />
       </Modal>
 
       {cardIdParam === "" ? (
@@ -33,7 +38,11 @@ export default function HelperBox() {
               <span>Nothing to see here...</span> yet!
             </h3>
             <h4>
-              Get started by <button className="btn">Creating</button> or selecting a Subject!
+              Get started by{" "}
+              <button className="btn" onClick={handleSubjectModalOpen}>
+                Creating
+              </button>{" "}
+              or selecting a Subject!
             </h4>
           </div>
         )
