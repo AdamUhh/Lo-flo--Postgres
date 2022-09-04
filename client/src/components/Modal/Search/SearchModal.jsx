@@ -116,7 +116,7 @@ export default function SearchModal({ handleModalOpen }) {
       </div>
 
       {error && <div className={styles.errormsg}>{error}</div>}
-      {!error && result.length < 1 && <div className={styles.errormsg}>Search returned nothing!</div>}
+      {!error && result && result?.length < 1 && <div className={styles.errormsg}>Search returned nothing!</div>}
       <div className={styles.result_container}>
         {loading ? (
           <LoadingIcon />

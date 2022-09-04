@@ -10,7 +10,6 @@ export function useCardsContext() {
 export function CardProvider({ children }) {
   const [cardData, setCardData] = useState();
   const { loading, error, value: cards } = useAsync(getCards);
-
   useEffect(() => {
     if (cards == null) return;
     setCardData(cards);

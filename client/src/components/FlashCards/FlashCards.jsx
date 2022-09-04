@@ -9,7 +9,7 @@ export default function FlashCards() {
   return (
     <div className={styles.container}>
       {loading && <LoadingIcon />}
-      {value != null && <Panel data={value?.flashCards} />}
+      <Panel data={value?.flashCards} />
       {error && error}
     </div>
   );

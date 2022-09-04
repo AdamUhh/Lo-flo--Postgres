@@ -7,6 +7,7 @@ import ThemeModal from "../Modal/ThemeModal";
 import Palette from "../svg/Palette";
 import Banner from "./Banner";
 import DataPanel from "./DataPanel";
+import HelperBox from "./HelperBox";
 import Queue from "./Queue";
 
 export default function Panel({ data }) {
@@ -28,7 +29,7 @@ export default function Panel({ data }) {
       </Modal>
       <div className={styles.panel}>
         <div className={styles.panel_main}>
-          {subjectIdParam?.length > 0 && <Banner data={data} isData={data?.length > 0} />}
+          {subjectIdParam?.length > 0 ? <Banner data={data} isData={data?.length > 0} /> : <HelperBox />}
           {data?.length > 1 && subjectIdParam?.length > 0 && <Queue data={data} />}
         </div>
         <div className={styles.side_container}>

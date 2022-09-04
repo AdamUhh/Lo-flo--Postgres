@@ -9,12 +9,12 @@ import SearchIcon from "./svg/SearchIcon";
 import styles from "../styles/Navbar.module.scss";
 
 export default function NavBar() {
-  const { handleCardIdParam, cardIdParam, handleDeleteSubjectIdParam } = useUrl();
+  const { cardIdParam, handleCardIdParam, handleDeleteSubjectIdParam } = useUrl();
 
   const { loading, error, cardData: cards } = useCardsContext();
 
-  const [modalOpen, handleModalOpen ] = useModal();
-  const [ searchModalOpen,  handleSearchModalOpen ] = useModal();
+  const [modalOpen, handleModalOpen] = useModal();
+  const [searchModalOpen, handleSearchModalOpen] = useModal();
 
   return (
     <div className={styles.container}>

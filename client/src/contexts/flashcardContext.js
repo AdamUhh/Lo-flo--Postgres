@@ -23,7 +23,7 @@ export function FlashCardProvider({ children }) {
   );
 
   useEffect(() => {
-    if (flashCards === null) return;
+    if (flashCards == null) return;
 
     // ? if user switches subjects and the subject has atleast one flashcard
     // ? set index to 0
@@ -35,7 +35,7 @@ export function FlashCardProvider({ children }) {
   }, [flashCards]);
 
   useEffect(() => {
-    if (flashCards === null) return;
+    if (flashCards == null) return;
 
     // ? edge case used only when user is searching for a specific flashcard
     // ? currentIndex becomes an array
